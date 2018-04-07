@@ -1,14 +1,46 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar class="header" color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Inicio</ion-title>
+    <ion-title>Futebol dos Pais</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Futebol dos Pais</h3>
-  <p>Version 0.1</p>
+<ion-content padding class="background">
+    <ion-card>
+        <ion-card-header text-center class="card-title">
+            {{lastGame.date}} 
+        </ion-card-header>
+        <ion-card-content>
+            <ion-grid>
+                <ion-row align-items-center justify-content-center>
+                  <ion-col >
+                      <img src="{{lastGame.winner.logo}}">
+                  </ion-col>
+                  <ion-col text-center class="card-main">
+                      {{lastGame.winner.score}} x {{lastGame.looser.score}}
+                  </ion-col>
+                  <ion-col>
+                      <img src="{{lastGame.looser.logo}}">
+                  </ion-col>
+                </ion-row>
+                <ion-row align-items-center justify-content-center>
+                    <ion-col text-center>
+                        {{lastGame.winner.name}} 
+                    </ion-col>
+                    <ion-col></ion-col>
+                    <ion-col text-center>
+                        {{lastGame.looser.name}}
+                    </ion-col>
+                </ion-row>
+                <ion-row align-items-end justify-content-end>
+                    <ion-col text-center class="card-actions">
+                        <button ion-button block clear>mais</button>
+                    </ion-col>
+                 </ion-row>
+              </ion-grid>
 
+        </ion-card-content>
+    </ion-card>
 </ion-content>

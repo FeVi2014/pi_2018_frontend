@@ -14,3 +14,30 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.header{
+    background: color($colors, primary, base);
+}
+.background{
+    background: color($colors, secondary, base);
+}
+.card-actions{
+    color: color($colors, primary, base);
+    bottom: -15px;
+    border-top: rgba(138, 135, 135, 0.247) solid 1px;
+    padding: 0;
+}
+.card-title{
+    text-transform: uppercase;
+    position: relative;
+    font-size: 14px;
+    font-weight: 400;
+    color: color($colors, lightDark, base);
+    padding: 10px 0 5px 0;
+    margin-bottom:10px;
+}
+.card-main{
+    font-weight: 300;
+    font-size: 30px;
+}
+
