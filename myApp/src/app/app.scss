@@ -18,26 +18,45 @@
 .header{
     background: color($colors, primary, base);
 }
+.menu{
+    background: color($colors, primary, base);
+}
 .background{
+    background: color($colors, secondary, base);
+}
+.card{
+    background: color($colors, secondary, base);
+}
+.item{
     background: color($colors, secondary, base);
 }
 .card-actions{
     color: color($colors, primary, base);
-    bottom: -15px;
     border-top: rgba(138, 135, 135, 0.247) solid 1px;
     padding: 0;
+    bottom: -20%;
+    text-transform: uppercase;
 }
-.card-title{
+.card-small-title{
     text-transform: uppercase;
     position: relative;
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 13px;
+    font-weight: 500;
     color: color($colors, lightDark, base);
     padding: 10px 0 5px 0;
     margin-bottom:10px;
 }
+.card-title{
+    text-transform: capitalize;
+    position: relative;
+    font-size: 15px;
+    font-weight: 500;
+    color: color($colors, lightDark, base);
+    margin-bottom:-10px;
+}
 .card-main{
     font-weight: 300;
-    font-size: 30px;
+    font-size: 1.5em;
 }
+
 

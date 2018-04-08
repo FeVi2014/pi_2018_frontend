@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar color="primary" class="header">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    
+    <ion-title>Jogos</ion-title>
+  </ion-navbar>
+  <ion-toolbar no-border-bottom>
+      <ion-segment [(ngModel)]="league">
+          <ion-segment-button *ngFor="let league of championship.league" value="{{league.title}}">
+              {{league.title}}
+          </ion-segment-button>
+      </ion-segment>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content class="background" [ngSwitch]="league">
+  <div *ngFor="let league of championship.league" *ngSwitchCase="{{league.title}}">
+    <ion-card>
+        <ion-slides pager>
+            Error: Template parse errors:
+            Can't have multiple template bindings on one element. Use only one attribute named 
+
+    
+
+        </ion-slides>
+    </ion-card>
+  </div>
+</ion-content>

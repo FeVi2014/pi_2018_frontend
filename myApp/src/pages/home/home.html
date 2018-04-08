@@ -8,9 +8,9 @@
 </ion-header>
 
 <ion-content padding class="background">
-    <ion-card>
-        <ion-card-header text-center class="card-title">
-            {{lastGame.date}} 
+    <ion-card class="card">
+        <ion-card-header text-center class="card-small-title">
+           ultimo jogo - {{lastGame.date}} 
         </ion-card-header>
         <ion-card-content>
             <ion-grid>
@@ -36,11 +36,45 @@
                 </ion-row>
                 <ion-row align-items-end justify-content-end>
                     <ion-col text-center class="card-actions">
-                        <button ion-button block clear>mais</button>
+                        <button ion-button (click)="toGamesList(lastGame.looser.league)"block clear>mais</button>
                     </ion-col>
                  </ion-row>
               </ion-grid>
 
         </ion-card-content>
+    </ion-card>
+    <ion-card class="card">
+      <ion-card-header text-start class="card-title">
+        Turma do Barranco
+      </ion-card-header>
+      <ion-grid>
+        <ion-item *ngFor="let post of lastestPosts"  class="item">
+            <ion-item class="item-title">
+              <h2>{{post.title}}</h2>
+              <p>{{post.comment}}</p>
+            </ion-item>
+            <ion-row align-items-start justify-content-start>
+              <ion-col>
+                <button ion-button icon-left clear small color="thirdary">
+                  <div>ler mais</div>
+                </button>
+              </ion-col>
+              <ion-col align-self-center  text-end>
+                <ion-note>
+                  {{post.date}}
+                </ion-note>
+              </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-row align-items-end justify-content-end>
+            <ion-col text-center class="card-actions">
+                <button ion-button block clear>mais</button>
+            </ion-col>
+        </ion-row>
+          <ion-col>
+          </ion-col>
+        <ion-row>
+        </ion-row>
+      </ion-grid>
     </ion-card>
 </ion-content>
