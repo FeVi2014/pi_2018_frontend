@@ -34,13 +34,22 @@
 .list{
     padding: 10px;
 }
-.option{
-    color: color($colors, secondary, base);
-    width: 100%;
-    font-size: 20px;
-}
 
 //CLASSES NOSSAS
+.toolbar{
+    background: color($colors, primary, base);
+    color: color($colors, secondary, base);
+    padding: 0;
+}
+.segment{
+    margin: 0
+}
+.select-championship{
+    color: color($colors, secondary, base);
+    width: 70%;
+    max-width: 70%;
+    font-size: 20px;
+}
 .card-actions{
     color: color($colors, primary, base);
     border-top: rgba(138, 135, 135, 0.247) solid 1px;
@@ -60,8 +69,8 @@
     font-weight: 300;
     font-size: 1.5em;
 }
-.bellow-toolback-content{
-    margin-top: 30%; 
+.games-content{
+    margin: 140px 0 0 0;
 }
 
 

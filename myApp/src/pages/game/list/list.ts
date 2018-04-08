@@ -87,31 +87,19 @@ export class ListPage {
     const shifts = [
       {
         title:"Semifinais",
-        round: {
-          games:[games,games,games,games],
-          number: 4
-        }
+        round: [{ games: games, number: 4 }, { games: games, number: 3 },  { games: games, number: 2 },  { games: games, number: 1 }]
       },
       {
         title:"Quartas",
-        round: {
-          games:[games,games,games,games],
-          number: 3
-        }
+        round: [{ games: games, number: 4 }, { games: games, number: 3 },  { games: games, number: 2 },  { games: games, number: 1 }]
       },
       {
         title:"2º Turno",
-        round: {
-          games:[games,games,games,games],
-          number: 2
-        }
+        round: [{ games: games, number: 4 }, { games: games, number: 3 },  { games: games, number: 2 },  { games: games, number: 1 }]
       },
       {
         title:"1º Turno",
-        round: {
-          games:[games,games,games,games],
-          number: 1
-        }
+        round: [{ games: games, number: 4 }, { games: games, number: 3 },  { games: games, number: 2 },  { games: games, number: 1 }]
       },
     ]
 
@@ -152,13 +140,13 @@ export class ListPage {
     this.champion = this.getLatest();
     
   }
- getLatest():number {
+  getLatest():number {
     this.championship.map(o => {
       if(o.year ==  new Date().getFullYear()) return o.id;
     })
     return 1;
   }
-  toGameDetails(id) {
+  toGameDetails(event, id) {
     this.navCtrl.push(GameDetails, { id: id });
   }
   toGameForm() {

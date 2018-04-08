@@ -1,12 +1,90 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar  color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Jogo tal</ion-title>
+    <ion-title>{{item.date}} - {{item.date}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+    <ion-card class="card">
+        <ion-card-header text-center>
+            Placar
+        </ion-card-header>
+        <ion-card-content>
+            <ion-grid>
+                <ion-row align-items-center justify-content-center>
+                  <ion-col >
+                      <img src="{{item.winner.logo}}">
+                  </ion-col>
+                  <ion-col text-center class="card-main">
+                      {{item.winner.score}} x {{item.looser.score}}
+                  </ion-col>
+                  <ion-col>
+                      <img src="{{item.looser.logo}}">
+                  </ion-col>
+                </ion-row>
+                <ion-row align-items-center justify-content-center>
+                    <ion-col text-center>
+                        {{item.winner.name}} 
+                    </ion-col>
+                    <ion-col></ion-col>
+                    <ion-col text-center>
+                        {{item.looser.name}}
+                    </ion-col>
+                </ion-row>
+              </ion-grid>
 
+        </ion-card-content>
+    </ion-card>
+    <ion-card class="card">
+        <ion-card-header text-center>
+            Artilheiros
+        </ion-card-header>
+        <ion-card-content>
+                <ion-list>
+                    <ion-list-header>
+                            <ion-row align-items-center justify-content-center>
+                                    <ion-col text-center>
+                                        Time
+                                    </ion-col>
+                                    <ion-col text-center>
+                                        Jogador
+                                    </ion-col>
+                                    <ion-col text-center></ion-col>
+                                    <ion-col text-center>
+                                        Gols
+                                    </ion-col>
+                                </ion-row>
+                    </ion-list-header>
+                    <ion-item *ngFor="let scorer of item.scorers">
+                            <ion-row align-items-center justify-content-center>
+                                <ion-col text-center>
+                                    {{scorer.teamLogo}}
+                                </ion-col>
+                                <ion-col text-center>
+                                        {{scorer.name}}
+                                </ion-col>
+                                <ion-col text-center></ion-col>
+                                <ion-col text-center>
+                                        {{scorer.scores}}
+                                </ion-col>
+                            </ion-row>
+                    </ion-item>
+                </ion-list>
+        </ion-card-content>
+    </ion-card>
+    <ion-card class="card">
+        <ion-card-header text-center>
+            Cartões
+        </ion-card-header>
+        <ion-card-content></ion-card-content>
+    </ion-card>
+    <ion-card class="card">
+        <ion-card-header text-center>
+            Supensões
+        </ion-card-header>
+        <ion-card-content></ion-card-content>
+    </ion-card>
 </ion-content>
