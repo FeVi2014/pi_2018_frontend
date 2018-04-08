@@ -17,15 +17,56 @@
 </ion-header>
 
 <ion-content class="background" [ngSwitch]="league">
-  <div *ngFor="let league of championship.league" *ngSwitchCase="{{league.title}}">
-    <ion-card>
-        <ion-slides pager>
-            Error: Template parse errors:
-            Can't have multiple template bindings on one element. Use only one attribute named 
+  <span *ngFor="let league of championship.league">
+    <span *ngSwitchCase="league.title">
+      <ion-card>
+        
+              <ion-segment [(ngModel)]="shift">
+                  <ion-segment-button *ngFor="let shift of league.shift" value="1">
+                      1º turno
+                  </ion-segment-button>
+              </ion-segment>
+              
+        <span [ngSwitch]="shift">
+          <span *ngFor="let shift of league.shift" >
 
-    
+            <ion-slides pager *ngSwitchCase="1">
 
-        </ion-slides>
-    </ion-card>
-  </div>
+                <ion-slide *ngFor="let round of shift.round">
+                    <ion-list>
+                      <h5>1º Rodada</h5>
+                        <button ion-item *ngFor="let game of round" (click)="itemTapped($event, game.id)">
+                            <ion-row align-items-center justify-content-center>
+                                <ion-col text-center class >
+                                    <img height="50%" width="50%" src="{{game.winner.logo}}">
+                                    <p>{{game.winner.name}}</p>
+                                </ion-col>
+                                <ion-col text-center>
+                                    {{game.winner.score}} x {{game.looser.score}}
+                                </ion-col>
+                                <ion-col text-center>
+                                    <img height="50%" width="50%" src="{{game.looser.logo}}">
+                                    <p>{{game.looser.name}}</p>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col>
+                                    <ion-note text-center>
+                                        <p>{{game.date}} - {{game.time}} </p>
+                                    </ion-note>
+                                  </ion-col>
+                            </ion-row>
+                        </button>
+                      </ion-list>
+                </ion-slide>
+
+            </ion-slides>
+
+          </span>
+       </span>
+       
+      </ion-card>
+
+    </span>
+  </span>
 </ion-content>

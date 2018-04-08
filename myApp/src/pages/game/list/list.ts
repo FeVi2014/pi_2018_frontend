@@ -69,7 +69,7 @@ export class ListPage {
           title:"master",
           shift:[
             {
-              round: games
+              round: [games]
             }
           ]
         },
@@ -77,7 +77,7 @@ export class ListPage {
           title:"senior",
           shift:[
             {
-              round: games
+              round: [games]
             }
           ]
         },
