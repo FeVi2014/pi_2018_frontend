@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{item.date}} - {{item.date}}</ion-title>
+    <ion-title>{{item.date}} - {{item.time}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -44,31 +44,32 @@
         </ion-card-header>
         <ion-card-content>
                 <ion-list>
-                    <ion-list-header>
-                            <ion-row align-items-center justify-content-center>
-                                    <ion-col text-center>
+                    <ion-list-header border-bottom>
+                            <ion-row align-items-start justify-content-start>
+                                    <ion-col text-start>
                                         Time
                                     </ion-col>
-                                    <ion-col text-center>
+                                    <ion-col text-start>
                                         Jogador
                                     </ion-col>
-                                    <ion-col text-center></ion-col>
-                                    <ion-col text-center>
+
+                                    <ion-col text-end>
                                         Gols
                                     </ion-col>
                                 </ion-row>
                     </ion-list-header>
                     <ion-item *ngFor="let scorer of item.scorers">
                             <ion-row align-items-center justify-content-center>
-                                <ion-col text-center>
-                                    {{scorer.teamLogo}}
+                                <ion-col text-start>
+                                    <img class="list-image" src="{{scorer.player.teamLogo}}">
                                 </ion-col>
-                                <ion-col text-center>
-                                        {{scorer.name}}
+                                <ion-col text-start class="item-row">
+                                    <p>{{scorer.player.name}}</p>
+                                    <p>{{scorer.player.league}}</p>
+                                    <p>{{scorer.player.number}}</p>
                                 </ion-col>
-                                <ion-col text-center></ion-col>
-                                <ion-col text-center>
-                                        {{scorer.scores}}
+                                <ion-col text-end class="item-row">
+                                    {{scorer.scores}}
                                 </ion-col>
                             </ion-row>
                     </ion-item>
@@ -79,12 +80,92 @@
         <ion-card-header text-center>
             Cartões
         </ion-card-header>
-        <ion-card-content></ion-card-content>
+        <ion-card-content>
+                <ion-list>
+                        <ion-list-header border-bottom>
+                                <ion-row align-items-start justify-content-start>
+                                        <ion-col text-start>
+                                            Time
+                                        </ion-col>
+                                        <ion-col text-start>
+                                            Jogador
+                                        </ion-col>
+                                        <ion-col text-end>
+                                            Cartão
+                                        </ion-col>
+                                        <ion-col text-end>
+                                            Tempo
+                                        </ion-col>
+                                    </ion-row>
+                        </ion-list-header>
+                        <ion-item *ngFor="let carded of item.cards">
+                                <ion-row align-items-center justify-content-center>
+                                    <ion-col text-start>
+                                        <img class="list-image" src="{{carded.player.teamLogo}}">
+                                    </ion-col>
+                                    <ion-col text-start class="item-row">
+                                        <p>{{carded.player.name}}</p>
+                                        <p>{{carded.player.league}}</p>
+                                        <p>{{carded.player.number}}</p>
+                                    </ion-col>
+                                    <ion-col text-end class="item-row">
+                                        <p>{{carded.card}}</p>
+                                    </ion-col>
+                                    <ion-col text-end class="item-row">
+                                        <p>{{carded.time}}</p>
+                                    </ion-col>
+                                </ion-row>
+                        </ion-item>
+                    </ion-list>
+        </ion-card-content>
     </ion-card>
     <ion-card class="card">
         <ion-card-header text-center>
             Supensões
         </ion-card-header>
-        <ion-card-content></ion-card-content>
+        <ion-card-content>
+                <ion-list>
+                        <ion-list-header border-bottom>
+                                <ion-row align-items-start justify-content-start>
+                                        <ion-col text-start>
+                                            Time
+                                        </ion-col>
+                                        <ion-col text-start>
+                                            Jogador
+                                        </ion-col>
+                                        <ion-col text-center>
+                                            Critério
+                                        </ion-col>
+                                        <ion-col text-center>
+                                            Jogos
+                                        </ion-col>
+                                        <ion-col text-end>
+                                            Motivo
+                                        </ion-col>
+                                    </ion-row>
+                        </ion-list-header>
+                        <ion-item *ngFor="let suspended of item.suspensions">
+                                <ion-row align-items-center justify-content-center>
+                                    <ion-col text-start>
+                                        <img class="list-image" src="{{suspended.player.teamLogo}}">
+                                    </ion-col>
+                                    <ion-col text-start class="item-row">
+                                        <p>{{suspended.player.name}}</p>
+                                        <p>{{suspended.player.league}}</p> 
+                                        <p>{{suspended.player.number}}</p>
+                                    </ion-col>
+                                    <ion-col text-center class="item-row">
+                                        <p>{{suspended.critery}}</p>
+                                    </ion-col>
+                                    <ion-col text-end class="item-row">
+                                        <p>{{suspended.games}}/{{gameNumbers}}</p>
+                                    </ion-col>
+                                    <ion-col text-end class="item-row">
+                                        <p>{{suspended.motive}}</p>
+                                    </ion-col>
+                                </ion-row>
+                        </ion-item>
+                    </ion-list>
+        </ion-card-content>
     </ion-card>
 </ion-content>

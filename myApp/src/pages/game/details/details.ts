@@ -8,10 +8,12 @@ import { NavController, NavParams } from 'ionic-angular';
 export class DetailsPage {
   selectedItemId: number;
   item: object;
+  gameNumbers: number;
   
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.selectedItemId = navParams.get('id');
     this.getGameById(this.selectedItemId);
+    this.gameNumbers = this.getGames().length;
   }
   getGameById(id:number):any{
     const games = this.getGames();
@@ -40,41 +42,42 @@ export class DetailsPage {
         scorers:[
           {
             player:{
-              name: "Julio Henrique",
+              name: "Lucas",
               league: "master",
-              number: "12"
+              number: "69",
+              teamLogo: '../assets/imgs/alemanha.png',
             },
             team:'Alemanha',
-            teamLogo: '../assets/imgs/alemanha.png',
+            scores: 5
+          },
+          {
+            player:{
+              name: "Julio",
+              league: "master",
+              number: "12",
+              teamLogo: '../assets/imgs/alemanha.png',
+            },
+            team:'Alemanha',
             scores: 2
           },
           {
             player:{
-              name: "Leonardo Santiago",
+              name: "Leonardo",
               league: "master",
-              number: "02"
+              number: "02",
+              teamLogo: '../assets/imgs/brasil.png',
             },
             team:'Brasil',
-            teamLogo: '../assets/imgs/brasil.png',
             scores: 1
-          },
-          {
-            player:{
-              name: "Lucas Spolleto",
-              league: "master",
-              number: "69"
-            },
-            team:'Alemanha',
-            teamLogo: '../assets/imgs/alemanha.png',
-            scores: 5
           },
         ],
         cards:[
           {
             player:{
-              name: "Gabriel Sobrinho",
+              name: "Gabriel",
               league: "master",
-              number: "24"
+              number: "24",
+              teamLogo: '../assets/imgs/brasil.png',
             },
             card:"vermelho",
             time: 86
@@ -84,9 +87,10 @@ export class DetailsPage {
         [
           {
             player:{
-              name: "Felipe Videira",
+              name: "Felipe",
               league: "master",
-              number: "66"
+              number: "66",
+              teamLogo: '../assets/imgs/alemanha.png',
             },
             critery: 4,
             games: 1,

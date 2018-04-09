@@ -36,6 +36,16 @@
 }
 
 //CLASSES NOSSAS
+.item-row{
+    max-width:80px;
+    height:80px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.list-image{
+    height: 50%;
+    width: 50px;
+}
 .toolbar{
     background: color($colors, primary, base);
     color: color($colors, secondary, base);
