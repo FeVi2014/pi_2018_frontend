@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage as GameList } from '../pages/game/list/list';
 import { TabelaPage } from '../pages/game/tabela/tabela';
 import { TabelaArtilhariaPage } from '../pages/game/tabelaArtilharia/tabelaArtilharia';
+import { LoginPage } from '../pages/adm/login/login';
 
 @Component({
   templateUrl: 'app.html'
@@ -26,7 +27,8 @@ export class MyApp {
       { title: 'Inicio', component: HomePage },
       { title: 'Jogos', component: GameList },
       { title: 'Tabela de Grupos', component: TabelaPage },
-      { title: 'Tabela Artilharia', component: TabelaArtilhariaPage }
+      { title: 'Tabela Artilharia', component: TabelaArtilhariaPage },
+      { title: 'Painel Administrativo', component: LoginPage }
     ];
 
   }

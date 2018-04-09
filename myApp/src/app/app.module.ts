@@ -12,6 +12,7 @@ import { TabelaArtilhariaPage } from '../pages/game/tabelaArtilharia/tabelaArtil
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { LoginPage } from '../pages/adm/login/login';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     GameDetails,
     TabelaPage,
     TabelaArtilhariaPage,
+    LoginPage,
     GameForm
   ],
   imports: [
@@ -36,6 +38,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     GameDetails,
     TabelaPage,
     TabelaArtilhariaPage,
+    LoginPage,
     GameForm
   ],
   providers: [
