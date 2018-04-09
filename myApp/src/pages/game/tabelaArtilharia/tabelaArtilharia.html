@@ -1,0 +1,66 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>    
+        <ion-title>Futebol dos Pais</ion-title>
+    </ion-navbar>
+
+    <span [ngSwitch]="champion">
+        <span *ngFor="let champ of championship">
+            <ion-toolbar class="toolbar" no-border-bottom *ngSwitchCase="champ.id">
+                <ion-segment class="segment" [(ngModel)]="league">
+                    <ion-segment-button *ngFor="let league of champ.league" value="{{league.title}}">
+                        liga {{league.title}}
+                    </ion-segment-button>
+                </ion-segment>
+            </ion-toolbar>
+        </span>
+    </span>
+</ion-header>
+
+<ion-content>
+
+<ion-card class="card">
+        <ion-card-header text-center>
+            Artilheiros
+        </ion-card-header>
+        <ion-card-content>
+                <ion-list>
+                    <ion-list-header border-bottom>
+                        <ion-row align-items-start justify-content-start>
+                                <ion-col text-start>
+                                    Liga
+                                </ion-col>
+                                <ion-col text-start>
+                                    Jogador
+                                </ion-col>
+                                <ion-col text-start>
+                                    Gols
+                                </ion-col>
+                                <ion-col text-start>
+                                    Time
+                                </ion-col>
+                        </ion-row>
+                    </ion-list-header>
+                    
+                    <ion-item *ngFor="let scorer of scorers" style="">
+                            <ion-row align-items-center justify-content-center>
+                                <ion-col text-start>
+                                    <img src="{{scorer.logo}}" alt="" height="40">
+                                </ion-col>
+                                <ion-col text-start>
+                                    {{scorer.name}}
+                                </ion-col>
+                                <ion-col text-start>
+                                    {{scorer.totalGols}}
+                                </ion-col>
+                                <ion-col text-start>
+                                    {{scorer.team}}
+                                </ion-col>                      
+                            </ion-row>
+                    </ion-item>
+                </ion-list>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
