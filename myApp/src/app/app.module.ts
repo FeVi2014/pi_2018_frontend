@@ -13,7 +13,13 @@ import { TabelaArtilhariaPage } from '../pages/game/tabelaArtilharia/tabelaArtil
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/adm/login/login';
+import { DatabaseProvider } from '../providers/database/database';
 
+import { IonicStorageModule } from '@ionic/storage';
+import { HttpModule } from '@angular/http';
+
+import { SQLitePorter } from '@ionic-native/sqlite-porter';
+import { SQLite } from '@ionic-native/sqlite';
 
 @NgModule({
   declarations: [
@@ -28,6 +34,8 @@ import { LoginPage } from '../pages/adm/login/login';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -44,7 +52,10 @@ import { LoginPage } from '../pages/adm/login/login';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    SQLite,
+    SQLitePorter,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DatabaseProvider
   ]
 })
 export class AppModule {}

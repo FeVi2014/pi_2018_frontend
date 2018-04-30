@@ -1,12 +1,12 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <button ion-button menuToggle>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
-        </button>    
-        <ion-title>Tabela de Grupos</ion-title>
-    </ion-navbar>
+        </button>
+    <ion-title>Tabela de Grupos</ion-title>
+  </ion-navbar>
 
-    <span [ngSwitch]="champion">
+  <span [ngSwitch]="champion">
         <span *ngFor="let champ of championship">
             <ion-toolbar class="toolbar" no-border-bottom *ngSwitchCase="champ.id">
                 <ion-segment class="segment" [(ngModel)]="league">
@@ -16,53 +16,53 @@
                 </ion-segment>
             </ion-toolbar>
         </span>
-    </span>
+  </span>
 
 </ion-header>
 
 <ion-content>
-    <ion-item *ngFor="let g of grupos" style="">
-        <ion-card class="card">
-        <ion-card-header text-center>
-            {{g.nome}} 
-        </ion-card-header>
-        <ion-card-content>
-                <ion-list>       
-                    <ion-list-header border-bottom>
-                            <ion-row align-items-start justify-content-start>
-                                    <ion-col text-center>
-                                        Time
-                                    </ion-col>
-                                    <ion-col text-right>
-                                        Pontos
-                                    </ion-col>
-                                    <ion-col text-right>
-                                        Jogos
-                                    </ion-col>
-                                    <ion-col text-right>
-                                        SG.
-                                    </ion-col>
-                                </ion-row>
-                    </ion-list-header>
+  <ion-item *ngFor="let g of grupos" style="">
+    <ion-card class="card">
+      <ion-card-header text-center>
+        {{g.nome}}
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-list-header border-bottom>
+            <ion-row align-items-start justify-content-start>
+              <ion-col text-center>
+                Time
+              </ion-col>
+              <ion-col text-right>
+                Pontos
+              </ion-col>
+              <ion-col text-right>
+                Jogos
+              </ion-col>
+              <ion-col text-right>
+                SG.
+              </ion-col>
+            </ion-row>
+          </ion-list-header>
 
-                    <ion-item *ngFor="let gt of g.team" style="">
-                            <ion-row align-items-center justify-content-center>
-                                <ion-col text-left>   
-                                    {{gt.nome}}                          
-                                </ion-col>   
-                                <ion-col text-right>   
-                                    {{gt.pontos}}                          
-                                </ion-col>   
-                                <ion-col text-right>   
-                                    {{gt.jogos}}                          
-                                </ion-col>   
-                                <ion-col text-right>   
-                                    {{gt.saldodegols}}                          
-                                </ion-col>                                                                                     
-                            </ion-row>
-                    </ion-item>
-                </ion-list>
-        </ion-card-content>
-        </ion-card>
-    </ion-item>    
+          <ion-item *ngFor="let gt of g.team" style="">
+            <ion-row align-items-center justify-content-center>
+              <ion-col text-left>
+                {{gt.nome}}
+              </ion-col>
+              <ion-col text-right>
+                {{gt.pontos}}
+              </ion-col>
+              <ion-col text-right>
+                {{gt.jogos}}
+              </ion-col>
+              <ion-col text-right>
+                {{gt.saldodegols}}
+              </ion-col>
+            </ion-row>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </ion-item>
 </ion-content>

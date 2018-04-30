@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ListPage as GameListPage } from '../game/list/list';
+import { DatabaseProvider } from './../../providers/database/database';
 
 @Component({
   selector: 'page-home',
@@ -9,16 +10,22 @@ import { ListPage as GameListPage } from '../game/list/list';
 export class HomePage {
   lastGame: Object;
   lastestPosts: Array<Object>;
-  
-  constructor(public navCtrl: NavController) {
+
+  constructor(public navCtrl: NavController, private databaseProvider: DatabaseProvider) {
+    this.databaseProvider.getDatabaseState().subscribe(ready => {
+      if (ready) {
+        this.loadGames();
+      }
+    });
+
     this.lastGame = {
-      id:1,
-      winner:{
+      id: 1,
+      winner: {
         name: "Alemanha",
         score: "7",
         logo: '../assets/imgs/alemanha.png'
       },
-      looser:{
+      looser: {
         name: "Brasil",
         score: "1",
         logo: '../assets/imgs/brasil.png'
@@ -35,15 +42,20 @@ export class HomePage {
       },
       {
         title: 'Coisa boa vem ai',
-        comment: 'Governo brasileiro decide parar de gastar dinheiro com futebole e outras inutilidades e investir em escolas publicas',
+        comment: 'Governo brasileiro decide parar de gastar dinheiro com futebol e outras inutilidades e investir em escolas publicas',
         date: "04/02/2018",
       },
     ];
     this.lastestPosts = posts;
   }
-  
+
   toGamesList(event, league) {
     this.navCtrl.push(GameListPage, { league: league });
+  }
+  loadGames() {
+    this.databaseProvider.getGames().then(res => {
+      console.log(res)
+    }).catch(err => console.log(err));
   }
 
 }
