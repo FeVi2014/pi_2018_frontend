@@ -10,28 +10,28 @@
 <ion-content padding>
     <ion-card class="card">
         <ion-card-header text-center>
-           ultimo jogo - {{lastGame.date}}
+           ultimo jogo - {{lastGame ? lastGame.date : ' '}}
         </ion-card-header>
         <ion-card-content>
             <ion-grid>
                 <ion-row align-items-center justify-content-center>
-                  <ion-col >
-                      <img src="{{lastGame.winner.logo}}">
+                  <ion-col>
+                      <img src="{{lastGame ? lastGame.team1Logo : '' }}">
                   </ion-col>
                   <ion-col text-center class="card-main">
-                      {{lastGame.winner.score}} x {{lastGame.looser.score}}
+                      {{lastGame ? lastGame.team1Score + 'x' + lastGame.team2Score : ' ' }}
                   </ion-col>
                   <ion-col>
-                      <img src="{{lastGame.looser.logo}}">
+                      <img src="{{lastGame ? lastGame.team2Logo : '' }}">
                   </ion-col>
                 </ion-row>
                 <ion-row align-items-center justify-content-center>
                     <ion-col text-center>
-                        {{lastGame.winner.name}}
+                        {{ lastGame ? lastGame.team1 : ' '}}
                     </ion-col>
                     <ion-col></ion-col>
                     <ion-col text-center>
-                        {{lastGame.looser.name}}
+                        {{ lastGame ? lastGame.team2 : ' '}}
                     </ion-col>
                 </ion-row>
                 <!-- <ion-row align-items-end justify-content-end>
@@ -40,7 +40,6 @@
                     </ion-col>
                  </ion-row> -->
               </ion-grid>
-
         </ion-card-content>
     </ion-card>
     <ion-card>
