@@ -1,6 +1,7 @@
 
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { DatabaseProvider } from './../../../providers/database/database';
 
 @Component({
   selector: 'page-tabelaArtilharia',
@@ -8,133 +9,35 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class TabelaArtilhariaPage {
 
-  scorers: Array<{
-    name:string,
-    totalGols:number,
-    league:string,
-    team:string,
-    logo:string
-  }>;
+  league: Array<Object>
+  selectedLeague: String
+  scorers:Object
 
-  champion: number;
-  
-  championship: Array<{
-    id:number,
-    year: number,
-    league: Array<object>
-  }>;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-     
-    this.scorers = [
-      {        
-        name: "Julião",        
-        totalGols: 60,
-        league: 'master',
-        team: 'Brasil',
-        logo: 'https://pbs.twimg.com/profile_images/844442450546561024/3F2TyCUH_400x400.jpg'        
-      },
-
-      {        
-        name: "Pelé",        
-        totalGols: 59,
-        league: 'master',
-        team: 'Brasil',
-        logo: 'https://pbs.twimg.com/profile_images/844442450546561024/3F2TyCUH_400x400.jpg'                
-      },
-
-      {        
-        name: "Ruy",        
-        totalGols: 32,
-        league: 'master',
-        team: 'Chile',
-        logo: 'https://pbs.twimg.com/profile_images/844442450546561024/3F2TyCUH_400x400.jpg'               
-      },
-
-      {        
-        name: "Messi",        
-        totalGols: 31,
-        league: 'master',
-        team: 'Suecia',
-        logo: 'https://pbs.twimg.com/profile_images/844442450546561024/3F2TyCUH_400x400.jpg'               
-      },
-
-      {        
-        name: "Kaká",        
-        totalGols: 31,
-        league: 'master',
-        team: 'Brasil',
-        logo: 'https://pbs.twimg.com/profile_images/844442450546561024/3F2TyCUH_400x400.jpg'               
-      },
-
-      {        
-        name: "Diego",        
-        totalGols: 30,
-        league: 'master',
-        team: 'Brasil',
-        logo: 'https://pbs.twimg.com/profile_images/844442450546561024/3F2TyCUH_400x400.jpg'               
-      },
-
-      {        
-        name: "Imbra",        
-        totalGols: 29,
-        league: 'master',
-        team: 'Suecia',
-        logo: 'https://pbs.twimg.com/profile_images/844442450546561024/3F2TyCUH_400x400.jpg'               
-      },
-
-      {        
-        name: "Guerra",        
-        totalGols: 12,
-        league: 'master',
-        team: 'Peru',
-        logo: 'https://pbs.twimg.com/profile_images/844442450546561024/3F2TyCUH_400x400.jpg'               
-      },
-      
-    ]
-
-    this.championship = [
-      {
-        id:1,
-        year: 2018,
-        league:[
-          {
-            title:"master"            
-          },
-          {
-            title:"senior"            
-          },
-        ],
-      },
-      {
-        id:2,
-        year: 2017,
-        league:[
-          {
-            title:"master"            
-          },
-          {
-            title:"senior"            
-          },
-        ],
+  constructor(public navCtrl: NavController, public navParams: NavParams, private databaseProvider: DatabaseProvider) {
+    this.selectedLeague = "M";
+    this.league = [
+      { title:'MASTER', value: 'M' },
+      { title:'SENIOR', value: 'S' }
+    ];
+    this.databaseProvider.getDatabaseState().subscribe(ready => {
+      if (ready) {
+        this.loadScorers().then(res => {
+          this.scorers = {};
+          res.map(o => {
+            if(!this.scorers[o.league]) this.scorers[o.league] = []
+            this.scorers[o.league].push(o)
+          })
+          console.log(this.scorers)
+        }).catch(err => console.log(err));
       }
-    ]
-
-    this.champion = this.getLatest();
+    });
   }
-  
-  getLatest():number {
-    this.championship.map(o => {
-      if(o.year ==  new Date().getFullYear()) return o.id;
+  loadScorers():any {
+    return new Promise((resolve, reject) => {
+      this.databaseProvider.getScorers().then(res => {
+        resolve(res);
+      }).catch(err => reject(err));
     })
-    return 1;
   }
 
 }
-    
-    
-    
-    
-    
-    
-    

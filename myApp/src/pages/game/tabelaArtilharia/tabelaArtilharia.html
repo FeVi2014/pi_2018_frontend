@@ -2,21 +2,21 @@
     <ion-navbar color="primary">
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
-        </button>    
-        <ion-title>Futebol dos Pais</ion-title>
+        </button>
+        <!-- <ion-select [(ngModel)]="champion" class="select-championship">
+            <ion-option *ngFor="let champ of championship" value="{{champ}}">
+                    Campeonato {{champ}}
+            </ion-option>
+        </ion-select> -->
+        <ion-title>Campeonato 2018</ion-title>
     </ion-navbar>
-
-    <span [ngSwitch]="champion">
-        <span *ngFor="let champ of championship">
-            <ion-toolbar class="toolbar" no-border-bottom *ngSwitchCase="champ.id">
-                <ion-segment class="segment" [(ngModel)]="league">
-                    <ion-segment-button *ngFor="let league of champ.league" value="{{league.title}}">
-                        liga {{league.title}}
+            <ion-toolbar class="toolbar" no-border-bottom>
+                <ion-segment class="segment" [(ngModel)]="selectedLeague">
+                    <ion-segment-button *ngFor="let l of league" value="{{l.value}}">
+                        liga {{l.title}}
                     </ion-segment-button>
                 </ion-segment>
             </ion-toolbar>
-        </span>
-    </span>
 </ion-header>
 
 <ion-content>
@@ -25,39 +25,33 @@
         <ion-card-header text-center>
             Artilheiros
         </ion-card-header>
-        <ion-card-content>
+        <ion-card-content *ngIf="scorers">
                 <ion-list>
                     <ion-list-header border-bottom>
                         <ion-row align-items-start justify-content-start>
                                 <ion-col text-start>
-                                    Liga
-                                </ion-col>
-                                <ion-col text-start>
                                     Jogador
                                 </ion-col>
-                                <ion-col text-start>
+                                <ion-col text-center>
                                     Gols
                                 </ion-col>
-                                <ion-col text-start>
+                                <ion-col text-center>
                                     Time
                                 </ion-col>
                         </ion-row>
                     </ion-list-header>
-                    
-                    <ion-item *ngFor="let scorer of scorers" style="">
+
+                    <ion-item *ngFor="let scorer of scorers[selectedLeague]" style="">
                             <ion-row align-items-center justify-content-center>
-                                <ion-col text-start>
-                                    <img src="{{scorer.logo}}" alt="" height="40">
-                                </ion-col>
-                                <ion-col text-start>
+                                <ion-col text-start class="item-row">
                                     {{scorer.name}}
                                 </ion-col>
-                                <ion-col text-start>
-                                    {{scorer.totalGols}}
+                                <ion-col text-center class="item-row">
+                                    {{scorer.score}}
                                 </ion-col>
-                                <ion-col text-start>
-                                    {{scorer.team}}
-                                </ion-col>                      
+                                <ion-col text-start class="item-row">
+                                    <img src="{{scorer.teamLogo}}" alt="" height="40">
+                                </ion-col>
                             </ion-row>
                     </ion-item>
                 </ion-list>

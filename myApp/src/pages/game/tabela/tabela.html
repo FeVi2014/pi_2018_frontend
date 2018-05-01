@@ -1,30 +1,29 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <button ion-button menuToggle>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-    <ion-title>Tabela de Grupos</ion-title>
-  </ion-navbar>
-
-  <span [ngSwitch]="champion">
-        <span *ngFor="let champ of championship">
-            <ion-toolbar class="toolbar" no-border-bottom *ngSwitchCase="champ.id">
-                <ion-segment class="segment" [(ngModel)]="league">
-                    <ion-segment-button *ngFor="let league of champ.league" value="{{league.title}}">
-                        liga {{league.title}}
+        <!-- <ion-select [(ngModel)]="champion" class="select-championship">
+            <ion-option *ngFor="let champ of championship" value="{{champ}}">
+                    Campeonato {{champ}}
+            </ion-option>
+        </ion-select> -->
+        <ion-title>Campeonato 2018</ion-title>
+    </ion-navbar>
+            <ion-toolbar class="toolbar" no-border-bottom>
+                <ion-segment class="segment" [(ngModel)]="selectedLeague">
+                    <ion-segment-button *ngFor="let l of league" value="{{l.value}}" (click)="getGroupKeys(l.value)">
+                        liga {{l.title}}
                     </ion-segment-button>
                 </ion-segment>
             </ion-toolbar>
-        </span>
-  </span>
-
 </ion-header>
 
 <ion-content>
-  <ion-item *ngFor="let g of grupos" style="">
+  <ion-item *ngFor="let key of groupKeys" style="">
     <ion-card class="card">
       <ion-card-header text-center>
-        {{g.nome}}
+        {{'Grupo ' + key}}
       </ion-card-header>
       <ion-card-content>
         <ion-list>
@@ -33,31 +32,31 @@
               <ion-col text-center>
                 Time
               </ion-col>
-              <ion-col text-right>
+              <ion-col text-end>
                 Pontos
               </ion-col>
-              <ion-col text-right>
+              <ion-col text-end>
                 Jogos
               </ion-col>
-              <ion-col text-right>
+              <ion-col text-end>
                 SG.
               </ion-col>
             </ion-row>
           </ion-list-header>
 
-          <ion-item *ngFor="let gt of g.team" style="">
+          <ion-item *ngFor="let team of groups[selectedLeague][key]" style="">
             <ion-row align-items-center justify-content-center>
               <ion-col text-left>
-                {{gt.nome}}
+                <img src="{{team.logo}}" alt="">
               </ion-col>
               <ion-col text-right>
-                {{gt.pontos}}
+                {{team.score}}
               </ion-col>
               <ion-col text-right>
-                {{gt.jogos}}
+                {{team.games}}
               </ion-col>
               <ion-col text-right>
-                {{gt.saldodegols}}
+                {{team.scoreDifference}}
               </ion-col>
             </ion-row>
           </ion-item>

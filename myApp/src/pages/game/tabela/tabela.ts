@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { DetailsPage as GameDetails } from '../details/details';
 import { FormPage as GameForm } from '../form/form';
+import { DatabaseProvider } from './../../../providers/database/database';
 
 @Component({
   selector: 'page-tabela',
@@ -10,275 +11,40 @@ import { FormPage as GameForm } from '../form/form';
 })
 export class TabelaPage {
 
-  championship: Array<{
-    id:number,
-    year: number,
-    league: Array<object>
-  }>;
+  league: Array<Object>
+  selectedLeague: String
+  groups:Object
+  groupKeys:Array<any>
 
-  grupos:Array<{
-
-    id:number,
-    nome: string,    
-    league: string,
-    team: Array<{
-        id:number,
-        nome:String,
-        bandeira:String,
-        pontos:number,    
-        jogos:number,    
-        saldodegols:number        
-    }>
-
-  }>;
-
-  champion: number;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    
-    this.grupos = [
-      {
-        id: 1,
-        nome: 'Grupo A',
-        league: "Master",
-        team: [{
-          id: 0,
-          nome: "Sel. Brasil   ",
-          bandeira: "asset/img/brasil.jpg",
-          pontos: 6,
-          jogos: 3,
-          saldodegols: -3,
-        },
-        {
-          id: 1,
-          nome: "Argentina",
-          bandeira: "asset/img/Argentina.jpg",
-          pontos: 0,
-          jogos: 3,
-          saldodegols: -38,
-        },
-        {
-          id: 2,
-          nome: "Portugal",
-          bandeira: "asset/img/Portugal.jpg",
-          pontos: 6,
-          jogos: 3,
-          saldodegols: -3,
-        },
-
-        {
-          id: 3,
-          nome: "Inglaterra",
-          bandeira: "asset/img/brasil.jpg",
-          pontos: 2,
-          jogos: 3,
-          saldodegols: -3,
-        },
-
-        {
-          id: 4,
-          nome: "Alemanha",
-          bandeira: "asset/img/Alemanha.jpg",
-          pontos: 3,
-          jogos: 3,
-          saldodegols: 7,
-        }
-        ]
-      },
-
-      {
-        id: 1,
-        nome: 'Grupo B',
-        league: "Master",
-        team: [{
-          id: 0,
-          nome: "Sel. Brasil",
-          
-          bandeira: "asset/img/brasil.jpg",
-          pontos: 6,
-          jogos: 3,
-          saldodegols: -3,
-        },
-        {
-          id: 1,
-          nome: "Argentina",
-          bandeira: "asset/img/Argentina.jpg",
-          pontos: 0,
-          jogos: 3,
-          saldodegols: -38,
-        },
-        {
-          id: 2,
-          nome: "Portugal ",
-          bandeira: "asset/img/Portugal.jpg",
-          pontos: 6,
-          jogos: 3,
-          saldodegols: -3,
-        },
-
-        {
-          id: 3,
-          nome: "Inglaterra",
-          bandeira: "asset/img/brasil.jpg",
-          pontos: 2,
-          jogos: 3,
-          saldodegols: -3,
-        },
-
-        {
-          id: 4,
-          nome: "Alemanha",
-          bandeira: "asset/img/Alemanha.jpg",
-          pontos: 3,
-          jogos: 3,
-          saldodegols: 7,
-        }
-        ]
-      },
-
-      {
-        id: 1,
-        nome: 'Grupo B',
-        league: "Master",
-        team: [{
-          id: 0,
-          nome: "Sel. Brasil",
-          bandeira: "asset/img/brasil.jpg",
-          pontos: 6,
-          jogos: 3,
-          saldodegols: -3,
-        },
-        {
-          id: 1,
-          nome: "Argentina",
-          bandeira: "asset/img/Argentina.jpg",
-          pontos: 0,
-          jogos: 3,
-          saldodegols: -38,
-        },
-        {
-          id: 2,
-          nome: "Portugal",
-          bandeira: "asset/img/Portugal.jpg",
-          pontos: 6,
-          jogos: 3,
-          saldodegols: -3,
-        },
-
-        {
-          id: 3,
-          nome: "Inglaterra",
-          bandeira: "asset/img/brasil.jpg",
-          pontos: 2,
-          jogos: 3,
-          saldodegols: -3,
-        },
-
-        {
-          id: 4,
-          nome: "Alemanha",
-          bandeira: "asset/img/Alemanha.jpg",
-          pontos: 3,
-          jogos: 3,
-          saldodegols: 7,
-        }
-        ]
-      },
-
-      {
-        id: 1,
-        nome: 'Grupo D',
-        league: "Master",
-        team: [{
-          id: 0,
-          nome: "Sel. Brasil",
-          bandeira: "asset/img/brasil.jpg",
-          pontos: 6,
-          jogos: 3,
-          saldodegols: -3,
-        },
-        {
-          id: 1,
-          nome: "Argentina",
-          bandeira: "asset/img/Argentina.jpg",
-          pontos: 0,
-          jogos: 3,
-          saldodegols: -38,
-        },
-        {
-          id: 2,
-          nome: "Portugal",
-          bandeira: "asset/img/Portugal.jpg",
-          pontos: 6,
-          jogos: 3,
-          saldodegols: -3,
-        },
-
-        {
-          id: 3,
-          nome: "Inglaterra",
-          bandeira: "asset/img/brasil.jpg",
-          pontos: 2,
-          jogos: 3,
-          saldodegols: -3,
-        },
-
-        {
-          id: 4,
-          nome: "Alemanha",
-          bandeira: "asset/img/Alemanha.jpg",
-          pontos: 3,
-          jogos: 3,
-          saldodegols: 7,
-        }
-        ]
+  constructor(public navCtrl: NavController, public navParams: NavParams, private databaseProvider: DatabaseProvider) {
+    this.selectedLeague = "M";
+    this.league = [
+      { title:'MASTER', value: 'M' },
+      { title:'SENIOR', value: 'S' }
+    ];
+    this.groups = {};
+    this.databaseProvider.getDatabaseState().subscribe(ready => {
+      if (ready) {
+        this.loadTeams().then(res => {
+          res.map(o => {
+            if(!this.groups[o.league]) this.groups[o.league] = {}
+            if(!this.groups[o.league][o.group]) this.groups[o.league][o.group] = []
+            this.groups[o.league][o.group].push(o)
+          })
+          console.log(this.groups)
+          this.getGroupKeys(this.selectedLeague);
+        }).catch(err => console.log(err));
       }
-
-
-    ]
-
-    this.championship = [
-      {
-        id:1,
-        year: 2018,
-        league:[
-          {
-            title:"master"            
-          },
-          {
-            title:"senior"            
-          },
-        ],
-      },
-      {
-        id:2,
-        year: 2017,
-        league:[
-          {
-            title:"master"            
-          },
-          {
-            title:"senior"            
-          },
-        ],
-      }
-    ]
-    
-    this.champion = this.getLatest(); 
+    });
   }
-
-  getLatest():number {
-    this.championship.map(o => {
-      if(o.year ==  new Date().getFullYear()) return o.id;
+  loadTeams():any {
+    return new Promise((resolve, reject) => {
+      this.databaseProvider.getTeams().then(res => {
+        resolve(res);
+      }).catch(err => reject(err));
     })
-    return 1;
   }
-  
+  getGroupKeys(league:any) {
+    this.groupKeys =  Object.keys(this.groups[league])
+  }
 }
-    
-    
-    
-    
-    
-    
-    

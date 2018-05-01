@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ListPage as GameListPage } from '../game/list/list';
+import { DetailsPage as GameDetails } from '../game/details/details';
 import { DatabaseProvider } from './../../providers/database/database';
 
 @Component({
@@ -22,7 +23,11 @@ export class HomePage {
     });
   }
   toGamesList(event, league) {
-    this.navCtrl.push(GameListPage, { league: league });
+    this.navCtrl.push(GameListPage);
+  }
+  toGameDetails(event, id) {
+    console.log(id)
+    this.navCtrl.push(GameDetails, { id: id });
   }
   loadLastGame():any {
     return new Promise((resolve, reject) => {

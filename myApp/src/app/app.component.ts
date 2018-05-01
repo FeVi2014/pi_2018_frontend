@@ -28,7 +28,6 @@ export class MyApp {
       { title: 'Jogos', component: GameList },
       { title: 'Tabela de Grupos', component: TabelaPage },
       { title: 'Tabela Artilharia', component: TabelaArtilhariaPage },
-      { title: 'Painel Administrativo', component: LoginPage }
     ];
 
   }
@@ -49,4 +48,3 @@ export class MyApp {
   }
 
 }
-

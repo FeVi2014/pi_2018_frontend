@@ -3,67 +3,56 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-select [(ngModel)]="champion" value="1" class="select-championship">
-            <ion-option *ngFor="let champ of championship" value="{{champ.id}}">
-                    Campeonato {{champ.year}}
+        <!-- <ion-select [(ngModel)]="champion" class="select-championship">
+            <ion-option *ngFor="let champ of championship" value="{{champ}}">
+                    Campeonato {{champ}}
             </ion-option>
-        </ion-select>
+        </ion-select> -->
+        <ion-title>Campeonato 2018</ion-title>
     </ion-navbar>
-    <span [ngSwitch]="champion">
-        <span *ngFor="let champ of championship">
-            <ion-toolbar class="toolbar" no-border-bottom *ngSwitchCase="champ.id">
-                <ion-segment class="segment" [(ngModel)]="league">
-                    <ion-segment-button *ngFor="let league of champ.league" value="{{league.title}}">
-                        liga {{league.title}}
+            <ion-toolbar class="toolbar" no-border-bottom>
+                <ion-segment class="segment" [(ngModel)]="selectedLeague">
+                    <ion-segment-button *ngFor="let l of league" value="{{l.value}}">
+                        liga {{l.title}}
                     </ion-segment-button>
                 </ion-segment>
             </ion-toolbar>
-        </span>
-    </span>
 </ion-header>
-<span [ngSwitch]="champion">
-    <span *ngFor="let champ of championship">
-       <span *ngSwitchCase="champ.id" >
-            <ion-content [ngSwitch]="league">
-                <span *ngFor="let league of champ.league">
-                <span *ngSwitchCase="league.title">
-                    <ion-card *ngFor="let shift of league.shift; let i = index"  [class]=" i == 0? 'games-content' : '' ">
-                    <ion-card-title text-center>
-                        {{shift.title}}
-                    </ion-card-title>
-                    <ion-slides pager>
-                        <ion-slide *ngFor="let round of shift.round; let i = index">
-                            <span class="slide-title"> {{round.number}}º Rodada </span>
-                                <ion-list>
-                                    <button ion-item *ngFor="let game of round.games" (click)="toGameDetails($event, game.id)">
-                                        <ion-row align-items-center justify-content-center>
-                                            <ion-col text-center>
-                                                <img height="50%" width="50%" src="{{game.winner.logo}}">
-                                                <p>{{game.winner.name}}</p>
-                                            </ion-col>
-                                            <ion-col text-center>
-                                                {{game.winner.score}} x {{game.looser.score}}
-                                            </ion-col>
-                                            <ion-col text-center>
-                                                <img height="50%" width="50%" src="{{game.looser.logo}}">
-                                                <p>{{game.looser.name}}</p>
-                                            </ion-col>
-                                        </ion-row>
-                                        <ion-row>
-                                            <ion-col>
-                                                <ion-note text-center>
-                                                    <p>{{game.date}} - {{game.time}} </p>
-                                                </ion-note>
-                                            </ion-col>
-                                        </ion-row>
-                                    </button>
-                                </ion-list>
-                        </ion-slide>
-                    </ion-slides>
-                </ion-card>
-                </span>
-                </span>
-            </ion-content>
-        </span>
-    </span>
-</span>
+<ion-content>
+        <ion-card *ngFor="let s of shift; let i = index" >
+          <ion-card-title text-center>
+              {{s.title}}
+          </ion-card-title>
+          <ion-card-content>
+        <ion-slides pager>
+            <ion-slide *ngFor="let r of round; let i = index">
+                <span class="slide-title"> {{r.title}}</span>
+                    <ion-list>
+                      <button ion-item *ngFor="let game of games[selectedLeague]" (click)="toGameDetails($event, game.id)">
+                        <ion-row align-items-center justify-content-center>
+                            <ion-col text-center>
+                                <img height="50%" width="50%" src="{{game.team1Logo}}">
+                                <p>{{game.team1}}</p>
+                            </ion-col>
+                            <ion-col text-center>
+                                {{game.team1Score}} x {{game.team2Score}}
+                            </ion-col>
+                            <ion-col text-center>
+                                <img height="50%" width="50%" src="{{game.team2Logo}}">
+                                <p>{{game.team2}}</p>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                <ion-note text-center>
+                                    <p>{{game.date}}</p>
+                                </ion-note>
+                            </ion-col>
+                        </ion-row>
+                      </button>
+                    </ion-list>
+            </ion-slide>
+        </ion-slides>
+      </ion-card-content>
+    </ion-card>
+</ion-content>
