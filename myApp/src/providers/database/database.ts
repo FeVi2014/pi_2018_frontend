@@ -10,44 +10,189 @@ import { Platform } from 'ionic-angular';
 @Injectable()
 export class DatabaseProvider {
   database: SQLiteObject;
+  private databaseConfig: any;
+  private tables: Array<String>;
+  private jsonUrls: Array<String>;
   private databaseReady: BehaviorSubject<boolean>;
-  constructor(
-    public http: Http,
-    private sqlitePorter: SQLitePorter,
-    private storage: Storage,
-    private sqlite: SQLite,
-    private platform: Platform) {
+
+  constructor(public http: Http, private sqlitePorter: SQLitePorter, private storage: Storage, private sqlite: SQLite, private platform: Platform ) {
     this.databaseReady = new BehaviorSubject(false);
+    this.databaseConfig = this.getDatabaseConfig();
+    this.jsonUrls = this.getJsonUrls();
+    this.tables = this.getTables();
     this.platform.ready().then(() => {
-      this.sqlite.create({
-        name: 'fdp.db',
-        location: 'default'
-      }).then((db: SQLiteObject) => {
+      this.sqlite.create(this.databaseConfig).then((db: SQLiteObject) => {
         this.database = db;
-        this.storage.get('database_filled').then(val => {
-          if (val) {
-            this.databaseReady.next(true);
+        this.hasToUpdate().then(yes => {
+          if (yes) {
+            this.updateDatabase().then(res => console.log(res)).catch(err => console.log(err));
           } else {
-            this.fillDatabase();
+            this.databaseReady.next(true);
           }
         }).catch(err => console.log(err));
       }).catch(err => console.log(err));
     }).catch(err => console.log(err));
   }
-  fillDatabase() {
-    this.http.get('assets/db.sql')
-      .map(res => res.text())
-      .subscribe(sql => {
-        this.sqlitePorter.importSqlToDb(this.database, sql)
-          .then(data => {
-            this.databaseReady.next(true);
-            this.storage.set('database_filled', true);
-          }).catch(err => console.log(err));
-      });
+  getDatabaseConfig() {
+    return {
+      name: 'fdp.db',
+      location: 'default'
+    };
+  }
+  getTables() {
+    //MANTER NESSA ORDEM
+    return [
+      "config",
+      "artilheiros",
+      "cartoes-amarelos",
+      "cartoes-vermelhos",
+      "jogos",
+      "tabela",
+      "suspensos",
+      "classificacao-4as-finais",
+      "classificacao-geral"
+    ]
+  }
+  getJsonUrls() {
+    //MANTER NESSA ORDEM
+    return [
+      'http://www.futeboldospais.com.br/config/config.txt',
+      'http://www.futeboldospais.com.br/campeonato2018/json/artilheiros.txt',
+      'http://www.futeboldospais.com.br/campeonato2018/json/cartoes-amarelos.txt',
+      'http://www.futeboldospais.com.br/campeonato2018/json/cartoes-vermelhos.txt',
+      'http://www.futeboldospais.com.br/campeonato2018/json/jogos.txt',
+      'http://www.futeboldospais.com.br/campeonato2018/json/tabela.txt',
+      'http://www.futeboldospais.com.br/campeonato2018/json/suspensos.txt',
+      'http://www.futeboldospais.com.br/campeonato2018/json/classificacao-4as-finais.txt',
+      'http://www.futeboldospais.com.br/campeonato2018/json/classificacao-geral.txt'
+    ]
+  }
+  ajaxGet(url) {
+  	return new Promise ((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      if (!xhr) resolve(null);
+      xhr.open("GET", url, true);
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState == 4) {
+          resolve(xhr.responseText);
+        }
+      }
+      xhr.send(null);
+    })
+  }
+  getDataConfig() {
+    return this.database.executeSql("SELECT * FROM config", []).then(res => {
+      const config = {
+        year: null,
+        version: null
+      };
+      if (res.rows.length > 0) {
+        config.year = res.rows.item(0).campeonatoAno;
+        config.version = res.rows.item(0).versaoAtualizacao;
+        return config;
+      } else {
+        return null;
+      }
+    }, err => {
+      console.log(err);
+      return null;
+    })
+  }
+  hasToUpdate() {
+    return new Promise ((resolve, reject) => {
+      this.ajaxGet('http://www.futeboldospais.com.br/config/config.txt').then(json => {
+        let jsonToObject = <any>{};
+        jsonToObject = json;
+        const siteConfig = JSON.parse(jsonToObject);
+        this.getDataConfig().then(dbConfig => {
+          if(!dbConfig) resolve(true);
+          if(siteConfig.campeonatoAno != dbConfig.year) resolve(true);
+          if(siteConfig.versaoAtualizacao != dbConfig.version) resolve(true);
+          resolve(false);
+        }).catch(err => reject(err));
+      }).catch(err => reject(err));;
+    });
+  }
+  updateDatabase() {
+    return new Promise ((resolve, reject) => {
+      const gets = this.jsonUrls.map(url => this.ajaxGet(url));
+      Promise.all(gets).then(gets => {
+        const inserts = []
+        const creates = [];
+        gets.map((json, index) => {
+          const operations = this.formatJsonAndDbOperations(json, this.tables[index]);
+          creates.push(operations.create);
+          inserts.push(operations.insert);
+        })
+        Promise.all(creates).then(res => {
+          Promise.all(inserts).then(res => resolve(res)).catch(err => reject(err))
+        }).catch(err => reject(err))
+      }).catch(err => reject(err))
+    });
+  }
+  formatJsonAndDbOperations(json, table) {
+    let jsonToObject = <any>{};
+    jsonToObject = json;
+    const formatedJson = JSON.parse(jsonToObject);
+    const operations = {
+      create: null,
+      insert: null
+    }
+    if(formatedJson.length > 0) {
+      //REGRA ESPECIFICA DA classificacao-4as-finais.txt
+      if(formatedJson[0].listaClassificacao) {
+        const fields = Object.keys(formatedJson[0].listaClassificacao[0]);
+        fields.push("categoria", "grupo");
+        operations.create = this.createTable(table, fields);
+        formatedJson.map(o => {
+          o.listaClassificacao.map(d => {
+            const data = fields.map(key => d[key]);
+            data.push(o.categoria, o.grupo);
+            operations.insert = this.insert(table, fields, data);
+          })
+        })
+      } else {
+        const fields = Object.keys(formatedJson[0]);
+        operations.create = this.createTable(table, fields);
+        formatedJson.map(o => {
+          const data = fields.map(key => o[key]);
+          operations.insert = this.insert(table, fields, data);
+        })
+      }
+    } else {
+      const fields = Object.keys(formatedJson);
+      const data = fields.map(key => formatedJson[key]);
+      operations.insert = this.insert(table, fields, data);
+      operations.create = this.createTable(table, fields);
+    }
+    return operations;
+  }
+
+  createTable(name:String, fields:Array<String>) {
+    return new Promise((resolve, reject) => {
+      this.database.executeSql(`CREATE TABLE IF NOT EXISTS ${name}`, fields).then(res => resolve(res)).catch(err => reject(err))
+    })
+  }
+  insert(table:String, fields:Array<String>, data:Array<any>) {
+    return new Promise((resolve, reject) => {
+      const values = fields.map(o => "?");
+      this.database.executeSql(`INSERT INTO ${table} (${fields.join(",")}) VALUES (${values.join(",")})`, data).then(res => resolve(res)).catch(err => reject(err))
+    })
+  }
+  getLogos() {
+    //this.ajaxGet('http://www.futeboldospais.com.br/campeonato2018/distintivos/Uruguai.png');
   }
   getDatabaseState() {
     return this.databaseReady.asObservable();
   }
+
+
+
+
+
+
+
+
   getGames() {
     return this.database.executeSql("SELECT * FROM jogo_campeonato ORDER BY data DESC", []).then(res => {
       const jogos = [];
