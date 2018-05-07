@@ -14,18 +14,18 @@ export class DetailsPage {
     this.selectedItemId = navParams.get('id');
     this.databaseProvider.getDatabaseState().subscribe(ready => {
       if (ready) {
-        this.getGameById(this.selectedItemId).then(res => {
-          console.log(res);
-          this.item = res;
-        }).catch(err => console.log(err));
+        // this.getGameById(this.selectedItemId).then(res => {
+        //   console.log(res);
+        //   this.item = res;
+        // }).catch(err => console.log(err));
       }
     });
   }
-  getGameById(id:number):any {
-    return new Promise((resolve, reject) => {
-      this.databaseProvider.getGameById(id).then(res => {
-        resolve(res);
-      }).catch(err => reject(err));
-    })
-  }
+  // getGameById(id:number):any {
+  //   return new Promise((resolve, reject) => {
+  //     this.databaseProvider.getGameById(id).then(res => {
+  //       resolve(res);
+  //     }).catch(err => reject(err));
+  //   })
+  // }
 }

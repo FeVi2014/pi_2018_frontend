@@ -15,10 +15,9 @@ export class HomePage {
   constructor(public navCtrl: NavController, private databaseProvider: DatabaseProvider) {
     this.databaseProvider.getDatabaseState().subscribe(ready => {
       if (ready) {
-        this.loadLastGame().then(res => {
-          this.lastGame = res;
-          console.log(this.lastGame);
-        }).catch(err => console.log(err));
+        this.testeDb()
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
       }
     });
   }
@@ -29,11 +28,23 @@ export class HomePage {
     console.log(id)
     this.navCtrl.push(GameDetails, { id: id });
   }
-  loadLastGame():any {
-    return new Promise((resolve, reject) => {
-      this.databaseProvider.getLastGame().then(res => {
-        resolve(res);
-      }).catch(err => reject(err));
+  testeDb():Promise<any> {
+    const promises = [];
+    this.databaseProvider.tables.map(table => {
+                                              //NOME DA TABELA
+      promises.push(this.databaseProvider.getAll(table));
+                                              //NOME DA TABELA, ID
+      promises.push(this.databaseProvider.getById(table, 1));
+                                              //QUERY, PARAMETROS, COLUNAS  exp: ('SELECT id,nome FROM artilheiros WHERE id = ?', [1], ['id', 'nome'])
+      promises.push(this.databaseProvider.getCustomize(`SELECT campos FROM ${table}`, [], ['campos']));
     })
+    return Promise.all(promises).then(res => res).catch(err => err)
   }
+  // loadLastGame():any {
+  //   return new Promise((resolve, reject) => {
+  //     this.databaseProvider.getLastGame().then(res => {
+  //       resolve(res);
+  //     }).catch(err => reject(err));
+  //   })
+  // }
 }

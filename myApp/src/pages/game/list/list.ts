@@ -35,23 +35,23 @@ export class ListPage {
     ];
     this.databaseProvider.getDatabaseState().subscribe(ready => {
       if (ready) {
-        this.loadGames().then(res => {
-          res.map(o => {
-            this.games[o.league].push(o)
-          })
-          console.log(this.games);
-        }).catch(err => console.log(err));
+        // this.loadGames().then(res => {
+        //   res.map(o => {
+        //     this.games[o.league].push(o)
+        //   })
+        //   console.log(this.games);
+        // }).catch(err => console.log(err));
       }
     });
   }
   toGameDetails(event, id) {
     this.navCtrl.push(GameDetails, { id: id });
   }
-  loadGames():any {
-    return new Promise((resolve, reject) => {
-      this.databaseProvider.getGames().then(res => {
-        resolve(res);
-      }).catch(err => reject(err));
-    })
-  }
+  // loadGames():any {
+  //   return new Promise((resolve, reject) => {
+  //     this.databaseProvider.getGames().then(res => {
+  //       resolve(res);
+  //     }).catch(err => reject(err));
+  //   })
+  // }
 }

@@ -21,23 +21,23 @@ export class TabelaArtilhariaPage {
     ];
     this.databaseProvider.getDatabaseState().subscribe(ready => {
       if (ready) {
-        this.loadScorers().then(res => {
-          this.scorers = {};
-          res.map(o => {
-            if(!this.scorers[o.league]) this.scorers[o.league] = []
-            this.scorers[o.league].push(o)
-          })
-          console.log(this.scorers)
-        }).catch(err => console.log(err));
+        // this.loadScorers().then(res => {
+        //   this.scorers = {};
+        //   res.map(o => {
+        //     if(!this.scorers[o.league]) this.scorers[o.league] = []
+        //     this.scorers[o.league].push(o)
+        //   })
+        //   console.log(this.scorers)
+        // }).catch(err => console.log(err));
       }
     });
   }
-  loadScorers():any {
-    return new Promise((resolve, reject) => {
-      this.databaseProvider.getScorers().then(res => {
-        resolve(res);
-      }).catch(err => reject(err));
-    })
-  }
+  // loadScorers():any {
+  //   return new Promise((resolve, reject) => {
+  //     this.databaseProvider.getScorers().then(res => {
+  //       resolve(res);
+  //     }).catch(err => reject(err));
+  //   })
+  // }
 
 }
