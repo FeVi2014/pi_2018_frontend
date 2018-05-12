@@ -58,6 +58,7 @@
   padding: 10px;
 }
 
+
 .list-image {
   height: 50%;
   width: 50px;
@@ -112,4 +113,14 @@
 .subtitle {
   font-size: 12px;
   color: rgba(0, 0, 0, 0.5);
+}
+.sumula-margin {
+  margin-top: 10px;
+}
+.sumula-items {
+    font-size: 14px;
+    text-transform: capitalize;
+    border-bottom: 0.4px solid rgba(0, 0, 0, 0.5);
+    color: gray;
+    font-weight: 500;
 }

@@ -9,49 +9,61 @@ import { DatabaseProvider } from './../../../providers/database/database';
   templateUrl: 'list.html'
 })
 export class ListPage {
-  games: Object
-  championship: Array<number>
-  league: Array<Object>
-  shift: Array<Object>
-  round: Array<Object>
-  selectedLeague: String
+  jogos: Object
+  turnos:  Object;
+  rodadas: Object;
+  ligas: Array<String> [];
+  ligaSelecionada: String;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private databaseProvider: DatabaseProvider) {
-    this.selectedLeague = "M";
-    this.championship = [2018];
-    this.games = {
-      S: [],
-      M: []
-    };
-    this.league = [
-      { title:'MASTER', value: 'M' },
-      { title:'SENIOR', value: 'S' }
-    ];
-    this.round = [
-      { title: "1º Rodada", value: "1" }
-    ]
-    this.shift = [
-      { title:'1º Turno', value: '1' },
-    ];
+    this.ligas = [];
+    this.turnos = {};
+    this.rodadas = {};
+    this.ligaSelecionada = "Master";
     this.databaseProvider.getDatabaseState().subscribe(ready => {
       if (ready) {
-        // this.loadGames().then(res => {
-        //   res.map(o => {
-        //     this.games[o.league].push(o)
-        //   })
-        //   console.log(this.games);
-        // }).catch(err => console.log(err));
+        this.loadGames()
+        .then(res => {
+          this.jogos = res
+          console.log(this.jogos)
+        })
+        .catch(err => console.log(err));
       }
     });
   }
-  toGameDetails(event, id) {
-    this.navCtrl.push(GameDetails, { id: id });
+  toGameDetails(event, game) {
+    this.navCtrl.push(GameDetails, { game: game });
   }
-  // loadGames():any {
-  //   return new Promise((resolve, reject) => {
-  //     this.databaseProvider.getGames().then(res => {
-  //       resolve(res);
-  //     }).catch(err => reject(err));
-  //   })
-  // }
+  show(){
+    console.log(this.ligaSelecionada)
+  }
+  loadGames():any {
+    return this.databaseProvider.getAll('jogos').then(res => {
+      let games = <any> {}
+      let game = <any>{}
+      res.reverse().map(o => {
+        game = o;
+        if(!games[game.categoria]) {
+          games[game.categoria] = {}
+          this.ligas.push(game.categoria);
+        }
+        if(!games[game.categoria][game.turno]) {
+          games[game.categoria][game.turno] = {}
+          if(!this.turnos[game.categoria]) this.turnos[game.categoria] = [];
+          this.turnos[game.categoria].push(game.turno);
+        }
+        if(!games[game.categoria][game.turno][game.rodada]) {
+          games[game.categoria][game.turno][game.rodada] = []
+          if(!this.rodadas[game.categoria]) this.rodadas[game.categoria] = {}
+          if(!this.rodadas[game.categoria][game.turno]) this.rodadas[game.categoria][game.turno] = []
+          this.rodadas[game.categoria][game.turno].push(game.rodada);
+        }
+        game.equipe1Logo = this.databaseProvider.getBadge(game.equipe1);
+        game.equipe2Logo = this.databaseProvider.getBadge(game.equipe2);
+
+        games[game.categoria][game.turno][game.rodada].push(game);
+      })
+      return games;
+    }).catch(err => console.log(err));
+  }
 }
