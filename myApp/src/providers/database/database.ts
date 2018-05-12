@@ -38,7 +38,11 @@ export class DatabaseProvider {
           } else {
             this.databaseReady.next(true);
           }
-        }).catch(err => console.log(err));
+        }).catch(err => {
+          console.log(err)
+          //CHECK DATABASE HEAR
+          this.databaseReady.next(true);
+        });
 
       }).catch(err => console.log(err));
     }).catch(err => console.log(err));
@@ -325,6 +329,9 @@ export class DatabaseProvider {
           reject(err)
         })
     })
+  }
+  public getBadge(team:String): String {
+    return this.jsonUrls.distintivos + team + ".png";
   }
 
   //EM PROGRESSO, POR HORA USAR   url de distintivo/nome do time nos <img src=""> da vida

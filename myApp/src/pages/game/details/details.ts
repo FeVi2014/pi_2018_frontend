@@ -11,7 +11,7 @@ export class DetailsPage {
   item: object;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private databaseProvider: DatabaseProvider) {
-    this.selectedItemId = navParams.get('id');
+    this.item = navParams.get('game');
     this.databaseProvider.getDatabaseState().subscribe(ready => {
       if (ready) {
         // this.getGameById(this.selectedItemId).then(res => {
