@@ -5,9 +5,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage as GameList } from '../pages/game/list/list';
+import { SuspensionsPage } from '../pages/game/suspensions/suspensions';
+import { CardsPage } from '../pages/game/cards/cards';
+import { ClassificationsPage } from '../pages/game/classifications/classifications';
+
 import { TabelaPage } from '../pages/game/tabela/tabela';
 import { TabelaArtilhariaPage } from '../pages/game/tabelaArtilharia/tabelaArtilharia';
-import { LoginPage } from '../pages/adm/login/login';
 
 @Component({
   templateUrl: 'app.html'
@@ -26,8 +29,11 @@ export class MyApp {
     this.pages = [
       { title: 'Inicio', component: HomePage },
       { title: 'Jogos', component: GameList },
-      { title: 'Tabela de Grupos', component: TabelaPage },
-      { title: 'Tabela Artilharia', component: TabelaArtilhariaPage },
+      { title: 'Artilheiros', component: TabelaArtilhariaPage },
+      { title: 'Suspensões', component: SuspensionsPage },
+      { title: 'Cartões', component: CardsPage },
+      { title: 'Classificações', component: ClassificationsPage },
+      { title: 'Tabela', component: TabelaPage },
     ];
 
   }

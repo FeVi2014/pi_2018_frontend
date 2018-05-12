@@ -6,13 +6,14 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage as GameList } from '../pages/game/list/list';
 import { DetailsPage as GameDetails } from '../pages/game/details/details';
-import { FormPage as GameForm } from '../pages/game/form/form';
+// import { SuspensionsPage } from '../pages/game/suspensions/suspensions';
+// import { CardsPage } from '../pages/game/cards/cards';
+// import { ClassificationsPage } from '../pages/game/classifications/classifications';
 import { TabelaPage } from '../pages/game/tabela/tabela';
 import { TabelaArtilhariaPage } from '../pages/game/tabelaArtilharia/tabelaArtilharia';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { LoginPage } from '../pages/adm/login/login';
 import { DatabaseProvider } from '../providers/database/database';
 
 import { IonicStorageModule } from '@ionic/storage';
@@ -27,10 +28,11 @@ import { SQLite } from '@ionic-native/sqlite';
     HomePage,
     GameList,
     GameDetails,
+    // SuspensionsPage,
+    // CardsPage,
+    // ClassificationsPage,
     TabelaPage,
-    TabelaArtilhariaPage,
-    LoginPage,
-    GameForm
+    TabelaArtilhariaPage
   ],
   imports: [
     BrowserModule,
@@ -44,10 +46,11 @@ import { SQLite } from '@ionic-native/sqlite';
     HomePage,
     GameList,
     GameDetails,
+    // SuspensionsPage,
+    // CardsPage,
+    // ClassificationsPage,
     TabelaPage,
-    TabelaArtilhariaPage,
-    LoginPage,
-    GameForm
+    TabelaArtilhariaPage
   ],
   providers: [
     StatusBar,

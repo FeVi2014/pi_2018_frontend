@@ -34,9 +34,6 @@ export class ListPage {
   toGameDetails(event, game) {
     this.navCtrl.push(GameDetails, { game: game });
   }
-  show(){
-    console.log(this.ligaSelecionada)
-  }
   loadGames():any {
     return this.databaseProvider.getAll('jogos').then(res => {
       let games = <any> {}

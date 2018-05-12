@@ -9,35 +9,31 @@ import { DatabaseProvider } from './../../../providers/database/database';
 })
 export class TabelaArtilhariaPage {
 
-  league: Array<Object>
-  selectedLeague: String
-  scorers:Object
+  artilheiros: Array<Object>
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private databaseProvider: DatabaseProvider) {
-    this.selectedLeague = "M";
-    this.league = [
-      { title:'MASTER', value: 'M' },
-      { title:'SENIOR', value: 'S' }
-    ];
     this.databaseProvider.getDatabaseState().subscribe(ready => {
       if (ready) {
-        // this.loadScorers().then(res => {
-        //   this.scorers = {};
-        //   res.map(o => {
-        //     if(!this.scorers[o.league]) this.scorers[o.league] = []
-        //     this.scorers[o.league].push(o)
-        //   })
-        //   console.log(this.scorers)
-        // }).catch(err => console.log(err));
+        this.loadScorers()
+          .then(res => {
+            this.artilheiros = res;
+          })
+          .catch(err => {
+
+          })
       }
     });
   }
-  // loadScorers():any {
-  //   return new Promise((resolve, reject) => {
-  //     this.databaseProvider.getScorers().then(res => {
-  //       resolve(res);
-  //     }).catch(err => reject(err));
-  //   })
-  // }
+  loadScorers(): Promise<any> {
+    return this.databaseProvider.getAll("artilheiros").then(res => {
+      let scorer = <any>{};
+      res.map(o => {
+        scorer = o;
+        scorer.nome = scorer.nome.split(" ")[0];
+        scorer.equipeLogo = this.databaseProvider.getBadge(scorer.equipe);
+      })
+      return res;
+    }).catch(err => console.log(err))
+  }
 
 }
