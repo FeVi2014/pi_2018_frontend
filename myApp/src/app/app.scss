@@ -46,7 +46,25 @@
 
 
 //CLASSES NOSSAS
-
+* {
+    color: white !important;
+}
+.arrows {
+  position: absolute;
+  top:50%;
+  opacity: 0.5;
+  min-width: 100%;
+  font-size: 40px;
+  left: 0;
+}
+.arrow-right {
+  position: relative;
+  right: -85%;
+}
+.arrow-left {
+  position: relative;
+  left: 5%;
+}
 .item-row {
   height: 80px;
   text-overflow: ellipsis;

@@ -7,5 +7,36 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-list-header border-bottom>
+          <ion-row align-items-start justify-content-start>
+            <ion-col text-start>
+              Jogador
+            </ion-col>
+            <ion-col text-center>
+              Data
+            </ion-col>
+            <ion-col text-end>
+              Cartao
+            </ion-col>
+          </ion-row>
+        </ion-list-header>
+        <ion-item *ngFor="let cartao of cartoes" style="">
+          <ion-row align-items-center justify-content-center>
+              <ion-col text-start>
+              <p>{{cartao.jogador}}</p>
+              <img src="assets/imgs/{{cartao.equipe | lowercase }}.png" alt="" style="width: 20px; display: inline;">
+              <span class="inline-subtitle">{{cartao.numero}}</span>
+            </ion-col>
+            <ion-col text-start>
+              <p>{{cartao.data}}</p>
+            </ion-col>
+            <ion-col text-start class="{{cartao.cor == 'vermelho' ? 'red-card' : 'yellow-card'}}" text-end></ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

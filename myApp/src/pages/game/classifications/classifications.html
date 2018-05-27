@@ -7,4 +7,24 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
+  <ion-content class="card-background-page">
+    <ion-list *ngFor="let classificacao of classificacoes; let i = index">
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img style="height: 55px;" src="assets/imgs/{{classificacao.equipe | lowercase}}.png">
+        </ion-thumbnail>
+        <h2>{{classificacao.equipe}}</h2>
+        <ion-row>
+          <ion-col> GP: {{classificacao.golsPro}}</ion-col>
+          <ion-col>Vitorias: {{classificacao.vitorias}}</ion-col>
+          <ion-col> GC: {{classificacao.golsContra}}</ion-col>
+          <ion-col>Empates: {{classificacao.empates}} </ion-col>
+          <ion-col> SG: {{classificacao.saldoGols}}</ion-col>
+          <ion-col>Derrotas: {{classificacao.derrotas}} </ion-col>
+          <ion-col><b>PONTOS: {{classificacao.pontosGanhos}}</b></ion-col>
+        </ion-row>
+        <button ion-button clear item-end>{{i+1}}</button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
 </ion-content>

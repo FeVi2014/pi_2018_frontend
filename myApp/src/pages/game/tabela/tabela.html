@@ -3,14 +3,9 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <!-- <ion-select [(ngModel)]="champion" class="select-championship">
-            <ion-option *ngFor="let champ of championship" value="{{champ}}">
-                    Campeonato {{champ}}
-            </ion-option>
-        </ion-select> -->
         <ion-title>Tabela Campeonato 2018</ion-title>
     </ion-navbar>
-            <ion-toolbar class="toolbar" no-border-bottom>
+            <ion-toolbar color="secondary" class="toolbar" no-border-bottom>
                 <ion-segment class="segment" [(ngModel)]="ligaSelecionada">
                   <ion-segment-button value="Master">
                       liga Master
@@ -26,6 +21,10 @@
           <ion-card-title text-center>
               {{turno}}º Turno
           </ion-card-title>
+          <div class="arrows" >
+            <ion-icon class="arrow-left"  name="arrow-dropleft"></ion-icon>
+            <ion-icon class="arrow-right" name="arrow-dropright"></ion-icon>
+          </div>
           <ion-card-content>
             <ion-slides pager>
               <ion-slide *ngFor="let rodada of rodadas[ligaSelecionada][turno]; let i = index">

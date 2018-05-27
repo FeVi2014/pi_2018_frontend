@@ -5,7 +5,7 @@
     </button>
     <ion-title>Jogos</ion-title>
   </ion-navbar>
-  <ion-toolbar class="toolbar" no-border-bottom>
+  <ion-toolbar color="secondary" class="toolbar" no-border-bottom>
     <ion-segment class="segment" [(ngModel)]="ligaSelecionada">
       <ion-segment-button value="Master">
         liga Master
@@ -21,10 +21,14 @@
     <ion-card-title text-center>
       {{turno}}º Turno
     </ion-card-title>
+    <div class="arrows" >
+      <ion-icon class="arrow-left"  name="arrow-dropleft"></ion-icon>
+      <ion-icon class="arrow-right" name="arrow-dropright"></ion-icon>
+    </div>
     <ion-card-content>
       <ion-slides pager>
         <ion-slide *ngFor="let rodada of rodadas[ligaSelecionada][turno]; let i = index">
-          <span class="slide-title"> {{rodada}}º Rodada</span>
+            <span class="slide-title"> {{rodada}}º Rodada</span>
           <ion-list>
             <button ion-item *ngFor="let jogo of jogos[ligaSelecionada][turno][rodada]" (click)="toGameDetails($event, jogo)">
                         <ion-row align-items-center justify-content-center>

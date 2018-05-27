@@ -6,8 +6,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Storage } from '@ionic/storage';
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { Platform } from 'ionic-angular';
-import { download } from 'image-downloader';
-import { fs } from 'await-fs';
 
 
 @Injectable()
@@ -21,44 +19,40 @@ export class DatabaseProvider {
   public tables: Array<any>;
 
   constructor(public http: Http, private sqlitePorter: SQLitePorter, private storage: Storage, private sqlite: SQLite, private platform: Platform) {
-    this.databaseReady = new BehaviorSubject(false);
-    this.badgeDirectory = this.getBadgeDirectory();
-    this.databaseConfig = this.getDatabaseConfig();
-    this.jsonUrls = this.getJsonUrls();
-    this.tables = this.getTables();
-
-    this.platform.ready().then(() => {
-      this.sqlite.create(this.databaseConfig).then((db: SQLiteObject) => {
-        this.database = db;
-        this.hasToUpdate().then(yes => {
-          if (yes) {
-            this.updateDatabase().then(res => {
-              this.databaseReady.next(true);
-            }).catch(err => console.log(err));
-          } else {
-            this.databaseReady.next(true);
-          }
-        }).catch(err => {
-          console.log(err)
-          //CHECK DATABASE HEAR
-          this.databaseReady.next(true);
-        });
-
-      }).catch(err => console.log(err));
-    }).catch(err => console.log(err));
+    // this.databaseReady = new BehaviorSubject(false);
+    // this.badgeDirectory = this.getBadgeDirectory();
+    // this.databaseConfig = this.getDatabaseConfig();
+    // this.jsonUrls = this.getJsonUrls();
+    // this.tables = this.getTables();
+    //
+    // this.platform.ready().then(() => {
+    //   this.sqlite.create(this.databaseConfig).then((db: SQLiteObject) => {
+    //     this.database = db;
+    //     this.databaseReady.next(true);
+    //     this.hasToUpdate().then(yes => {
+    //       if (yes) {
+    //         this.updateDatabase().then(res => {
+    //           this.databaseReady.next(true);
+    //         }).catch(err => console.log(err));
+    //       } else {
+    //         this.databaseReady.next(true);
+    //       }
+    //     }).catch(err => {
+    //       console.log(err)
+    //       this.databaseReady.next(true);
+    //     });
+    //   }).catch(err => console.log(err));
+    // }).catch(err => console.log(err));
   }
-
   private getDatabaseConfig(): Object {
     return {
       name: 'fdp.db',
       location: 'default'
     };
   }
-
   private getBadgeDirectory(): String {
     return "../../badges";
   }
-
   private getTables(): Array<any> {
     return [
       "config",
@@ -72,7 +66,6 @@ export class DatabaseProvider {
       "classificacao_geral"
     ];
   }
-
   private getJsonUrls(): Object {
     return {
       'config': 'http://www.futeboldospais.com.br/config/config.txt',
@@ -84,15 +77,13 @@ export class DatabaseProvider {
       'suspensos': 'http://www.futeboldospais.com.br/campeonato2018/json/suspensos.txt',
       'classificacao_4as_finais': 'http://www.futeboldospais.com.br/campeonato2018/json/classificacao-4as-finais.txt',
       'classificacao_geral': 'http://www.futeboldospais.com.br/campeonato2018/json/classificacao-geral.txt',
-      'distintivos': 'http://www.futeboldospais.com.br/campeonato2018/distintivos/' //NOME DO TIME
+      'distintivos': 'http://www.futeboldospais.com.br/campeonato2018/distintivos/'
     }
   }
-
   public getDatabaseState(): any {
     return this.databaseReady.asObservable();
   }
-
-  private ajaxGet(url:string): any {
+  private ajaxGet(url: string): any {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       if (!xhr) resolve(null);
@@ -115,7 +106,6 @@ export class DatabaseProvider {
       })
     })
   }
-
   private getDataConfig(): any {
     return this.database.executeSql("SELECT * FROM config", []).then(res => {
       const config = {
@@ -134,7 +124,6 @@ export class DatabaseProvider {
       return null;
     })
   }
-
   private hasToUpdate(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.ajaxGet(this.jsonUrls.config).then(json => {
@@ -150,7 +139,6 @@ export class DatabaseProvider {
       }).catch(err => reject(err));;
     });
   }
-
   private clearDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
       const drops = [];
@@ -160,36 +148,28 @@ export class DatabaseProvider {
       Promise.all(drops).then(res => resolve(res)).catch(err => err);
     })
   }
-
   private updateDatabase(): Promise<any> {
     return new Promise((resolve, reject) => {
       const gets = this.tables.map(name => this.ajaxGet(this.jsonUrls[name]));
       Promise.all(gets).then(gets => {
         const inserts = []
-        // const creates = [];
         gets.map((json, index) => {
           const operations = this.formatJsonAndDbOperations(json, this.tables[index]);
-          // creates.push(operations.create);
           inserts.push(operations.insert);
         })
-        // Promise.all(creates).then(createRes => {
-          this.createDatabase().then(res => {
-            Promise.all(inserts).then(insertRes => resolve(insertRes))
-              .catch(err => {
-                reject(err);
-              });
-          }).catch(err => {
-            reject(err);
-          })
-        // }).catch(err => {
-        //   reject(err);
-        // })
+        this.createDatabase().then(res => {
+          Promise.all(inserts).then(insertRes => resolve(insertRes))
+            .catch(err => {
+              reject(err);
+            });
+        }).catch(err => {
+          reject(err);
+        })
       }).catch(err => {
         reject(err);
       });
     });
   }
-
   private formatJsonAndDbOperations(json, table): any {
     let jsonToObject = <any>{};
     jsonToObject = json;
@@ -199,12 +179,10 @@ export class DatabaseProvider {
       insert: null
     }
     if (formatedJson.length > 0) {
-      //REGRA ESPECIFICA DA classificacao-4as-finais.txt
-      if (formatedJson[0].listaClassificacao) {
+      if (formatedJson[0].listaClassificacao) {   //REGRA ESPECIFICA DA classificacao-4as-finais.txt
         const listaClassificacao = formatedJson[0].listaClassificacao[0];
         const fields = Object.keys(listaClassificacao);
         fields.push("categoria", "grupo");
-        // operations.create = this.createTable(table, fields);
         formatedJson.map(o => {
           o.listaClassificacao.map(d => {
             const data = Object.keys(listaClassificacao).map(key => d[key]);
@@ -214,7 +192,6 @@ export class DatabaseProvider {
         })
       } else {
         const fields = Object.keys(formatedJson[0]);
-        // operations.create = this.createTable(table, fields);
         formatedJson.map(o => {
           const data = fields.map(key => o[key]);
           operations.insert = this.insert(table, fields, data);
@@ -224,26 +201,9 @@ export class DatabaseProvider {
       const fields = Object.keys(formatedJson);
       const data = fields.map(key => formatedJson[key]);
       operations.insert = this.insert(table, fields, data);
-      // operations.create = this.createTable(table, fields);
     }
     return operations;
   }
-
-  // private createTable(name: String, fields: Array<String>): Promise<any> {
-  //   return new Promise((resolve, reject) => {
-  //     const formatFields = fields.map(field => field + " TEXT")
-  //     const query = `CREATE TABLE IF NOT EXISTS ${name} (id INTEGER PRIMARY KEY AUTOINCREMENT, campos TEXT, ${formatFields.join(",")})`;
-  //     resolve(query);
-  //     // VERSÃO ANTIGA, NÃO FUNCIONA, TMB NÃO SEI PQ
-  //     // console.log(name)
-  //     // console.log(fields)
-  //     // console.log(query)
-  //     // this.database.executeSql(query, {}).then(res => resolve(res))
-  //     // .catch(err => {
-  //     //   reject(err)
-  //     // })
-  //   })
-  // }
   private insert(table: String, fields: Array<String>, data: Array<any>): Promise<any> {
     return new Promise((resolve, reject) => {
       const values = fields.map(o => "?");
@@ -257,8 +217,7 @@ export class DatabaseProvider {
         })
     })
   }
-
-  public getAll(table:String): Promise<Array<Object>> {
+  public getAll(table: String): Promise<Array<Object>> {
     return new Promise((resolve, reject) => {
       const query = `SELECT * FROM ${table}`
       this.database.executeSql(query, [])
@@ -284,7 +243,7 @@ export class DatabaseProvider {
     })
   }
 
-  public getById(table:String, id:number): Promise<Array<Object>> {
+  public getById(table: String, id: number): Promise<Array<Object>> {
     return new Promise((resolve, reject) => {
       const query = `SELECT * FROM ${table} WHERE id = ?`
       this.database.executeSql(query, [id])
@@ -306,8 +265,7 @@ export class DatabaseProvider {
         })
     })
   }
-  //SO FUNCIONA COM SELECTS
-  public getCustomize(query:string, params:Array<any>, colums:Array<String> = null): Promise<Array<Object>> {
+  public getCustomize(query: string, params: Array<any>, colums: Array<String> = null): Promise<Array<Object>> {
     return new Promise((resolve, reject) => {
       this.database.executeSql(query, params)
         .then(res => {
@@ -330,22 +288,7 @@ export class DatabaseProvider {
         })
     })
   }
-  public getBadge(team:String): String {
+  public getBadge(team: String): String {
     return this.jsonUrls.distintivos + team + ".png";
   }
-
-  //EM PROGRESSO, POR HORA USAR   url de distintivo/nome do time nos <img src=""> da vida
-  // private saveBadges(): Promise<any> {
-  //   return new Promise((resolve, reject) => {
-  //     ajaxGet()
-  //     const options = {
-  //       url: this.jsonUrls.distintivos + team,
-  //       dest: this.badgeDirectory
-  //     };
-  //     download.image(options).then(({ filename, image }) => {
-  //       resolve(filename);
-  //     }).catch(err => reject(err))
-  //
-  //   });
-  // }
 }

@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { DetailsPage as GameDetails } from '../details/details';
-import { DatabaseProvider } from './../../../providers/database/database';
+import jogos from '../../../assets/js/jogos.js';
 
 @Component({
   selector: 'page-list',
@@ -12,33 +12,24 @@ export class ListPage {
   jogos: Object
   turnos:  Object;
   rodadas: Object;
-  ligas: Array<String> [];
+  ligas: Array<String>;
   ligaSelecionada: String;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private databaseProvider: DatabaseProvider) {
+  constructor(public navCtrl: NavController) {
     this.ligas = [];
     this.turnos = {};
     this.rodadas = {};
     this.ligaSelecionada = "Master";
-    this.databaseProvider.getDatabaseState().subscribe(ready => {
-      if (ready) {
-        this.loadGames()
-        .then(res => {
-          this.jogos = res
-          console.log(this.jogos)
-        })
-        .catch(err => console.log(err));
-      }
-    });
+    this.jogos = this.loadGames();
+    console.log(this.jogos);
   }
   toGameDetails(event, game) {
     this.navCtrl.push(GameDetails, { game: game });
   }
   loadGames():any {
-    return this.databaseProvider.getAll('jogos').then(res => {
       let games = <any> {}
       let game = <any>{}
-      res.reverse().map(o => {
+      jogos.reverse().map(o => {
         game = o;
         if(!games[game.categoria]) {
           games[game.categoria] = {}
@@ -55,12 +46,11 @@ export class ListPage {
           if(!this.rodadas[game.categoria][game.turno]) this.rodadas[game.categoria][game.turno] = []
           this.rodadas[game.categoria][game.turno].push(game.rodada);
         }
-        game.equipe1Logo = this.databaseProvider.getBadge(game.equipe1);
-        game.equipe2Logo = this.databaseProvider.getBadge(game.equipe2);
+        game.equipe1Logo = 'assets/imgs/' + game.equipe1.toLowerCase() + '.png';
+        game.equipe2Logo = 'assets/imgs/' + game.equipe2.toLowerCase() + '.png';
 
         games[game.categoria][game.turno][game.rodada].push(game);
       })
       return games;
-    }).catch(err => console.log(err));
   }
 }

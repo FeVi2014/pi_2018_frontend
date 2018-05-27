@@ -6,9 +6,9 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage as GameList } from '../pages/game/list/list';
 import { DetailsPage as GameDetails } from '../pages/game/details/details';
-// import { SuspensionsPage } from '../pages/game/suspensions/suspensions';
-// import { CardsPage } from '../pages/game/cards/cards';
-// import { ClassificationsPage } from '../pages/game/classifications/classifications';
+import { SuspensionsPage } from '../pages/game/suspensions/suspensions';
+import { CardsPage } from '../pages/game/cards/cards';
+import { ClassificationsPage } from '../pages/game/classifications/classifications';
 import { TabelaPage } from '../pages/game/tabela/tabela';
 import { TabelaArtilhariaPage } from '../pages/game/tabelaArtilharia/tabelaArtilharia';
 
@@ -28,9 +28,9 @@ import { SQLite } from '@ionic-native/sqlite';
     HomePage,
     GameList,
     GameDetails,
-    // SuspensionsPage,
-    // CardsPage,
-    // ClassificationsPage,
+    SuspensionsPage,
+    CardsPage,
+    ClassificationsPage,
     TabelaPage,
     TabelaArtilhariaPage
   ],
@@ -46,9 +46,9 @@ import { SQLite } from '@ionic-native/sqlite';
     HomePage,
     GameList,
     GameDetails,
-    // SuspensionsPage,
-    // CardsPage,
-    // ClassificationsPage,
+    SuspensionsPage,
+    CardsPage,
+    ClassificationsPage,
     TabelaPage,
     TabelaArtilhariaPage
   ],
