@@ -4,6 +4,8 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { InfoPage } from '../pages/info/info';
+import { RegulationPage } from '../pages/regulation/regulation';
 import { ListPage as GameList } from '../pages/game/list/list';
 import { DetailsPage as GameDetails } from '../pages/game/details/details';
 import { SuspensionsPage } from '../pages/game/suspensions/suspensions';
@@ -26,13 +28,15 @@ import { SQLite } from '@ionic-native/sqlite';
   declarations: [
     MyApp,
     HomePage,
+    InfoPage,
     GameList,
     GameDetails,
     SuspensionsPage,
     CardsPage,
     ClassificationsPage,
     TabelaPage,
-    TabelaArtilhariaPage
+    TabelaArtilhariaPage,
+    RegulationPage
   ],
   imports: [
     BrowserModule,
@@ -44,13 +48,15 @@ import { SQLite } from '@ionic-native/sqlite';
   entryComponents: [
     MyApp,
     HomePage,
+    InfoPage,
     GameList,
     GameDetails,
     SuspensionsPage,
     CardsPage,
     ClassificationsPage,
     TabelaPage,
-    TabelaArtilhariaPage
+    TabelaArtilhariaPage,
+    RegulationPage
   ],
   providers: [
     StatusBar,

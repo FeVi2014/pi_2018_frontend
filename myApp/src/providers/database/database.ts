@@ -77,7 +77,8 @@ export class DatabaseProvider {
       'suspensos': 'http://www.futeboldospais.com.br/campeonato2018/json/suspensos.txt',
       'classificacao_4as_finais': 'http://www.futeboldospais.com.br/campeonato2018/json/classificacao-4as-finais.txt',
       'classificacao_geral': 'http://www.futeboldospais.com.br/campeonato2018/json/classificacao-geral.txt',
-      'distintivos': 'http://www.futeboldospais.com.br/campeonato2018/distintivos/'
+      'distintivos': 'http://www.futeboldospais.com.br/campeonato2018/distintivos/',
+      'regulamento': 'http://www.futeboldospais.com.br/campeonato2018/documentos/regulamento-2018.pdf'
     }
   }
   public getDatabaseState(): any {

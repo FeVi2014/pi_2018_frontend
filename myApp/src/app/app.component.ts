@@ -4,11 +4,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
+import { InfoPage } from '../pages/info/info';
+import { RegulationPage } from '../pages/regulation/regulation';
 import { ListPage as GameList } from '../pages/game/list/list';
 import { SuspensionsPage } from '../pages/game/suspensions/suspensions';
 import { CardsPage } from '../pages/game/cards/cards';
 import { ClassificationsPage } from '../pages/game/classifications/classifications';
-
 import { TabelaPage } from '../pages/game/tabela/tabela';
 import { TabelaArtilhariaPage } from '../pages/game/tabelaArtilharia/tabelaArtilharia';
 
@@ -20,20 +21,22 @@ export class MyApp {
 
   rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any, icon: string}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Inicio', component: HomePage },
-      { title: 'Jogos', component: GameList },
-      { title: 'Artilheiros', component: TabelaArtilhariaPage },
-      { title: 'Suspensões', component: SuspensionsPage },
-      { title: 'Cartões', component: CardsPage },
-      { title: 'Classificações', component: ClassificationsPage },
-      { title: 'Tabela', component: TabelaPage },
+      { title: 'Inicio', component: HomePage, icon: "home" },
+      { title: 'Jogos', component: GameList, icon: "football"},
+      { title: 'Artilheiros', component: TabelaArtilhariaPage, icon: "locate" },
+      { title: 'Suspensões', component: SuspensionsPage, icon: "logo-freebsd-devil" },
+      { title: 'Cartões', component: CardsPage, icon: "square" },
+      { title: 'Classificações', component: ClassificationsPage, icon: "podium" },
+      { title: 'Tabela', component: TabelaPage, icon: "calendar" },
+      // { title: 'Regulamento', component: RegulationPage, icon: "bookmarks" },
+      { title: 'Informações', component: InfoPage, icon: "information-circle" },
     ];
 
   }

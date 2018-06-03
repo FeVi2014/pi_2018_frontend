@@ -1,6 +1,5 @@
 // App Global Sass
 
-
 //ALETERANDO COMPONENTES
 
 .content {
@@ -42,12 +41,17 @@
 .list {
   padding: 10px;
 }
-
-
+[icon-start] ion-icon {
+  line-height: inherit !important;
+}
 
 //CLASSES NOSSAS
+
 * {
     color: white !important;
+}
+.menu_button {
+  padding: 10px;
 }
 .arrows {
   position: absolute;
