@@ -35,7 +35,7 @@ export class MyApp {
       { title: 'Cartões', component: CardsPage, icon: "square" },
       { title: 'Classificações', component: ClassificationsPage, icon: "podium" },
       { title: 'Tabela', component: TabelaPage, icon: "calendar" },
-      // { title: 'Regulamento', component: RegulationPage, icon: "bookmarks" },
+      { title: 'Regulamento', component: RegulationPage, icon: "bookmarks" },
       { title: 'Informações', component: InfoPage, icon: "information-circle" },
     ];
 

@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
-import { FileOpener } from '@ionic-native/file-opener';
+import { NavController } from 'ionic-angular';
+import { HomePage } from '../home/home';
 
 @Component({
   selector: 'page-regulation',
-  templateUrl: 'regulation.html',
-  providers: [FileOpener]
+  templateUrl: 'regulation.html'
 })
 
 export class RegulationPage {
 
-  constructor(private fileOpener: FileOpener) {
-    this.fileOpener.open('../../assets/files/regulamento2018.pdf', 'application/pdf')
-      .then(() => console.log('File is opened'))
-      .catch(err => console.log(err));
+  file: string;
+
+  constructor(public navCtrl: NavController) {
+    this.file = "http://www.futeboldospais.com.br/campeonato2018/documentos/regulamento-2018.pdf";
+    window.location.href = this.file;
+    this.navCtrl.setRoot(HomePage);
   }
 
 }
